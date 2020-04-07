@@ -13,11 +13,10 @@ public class playerControl : MonoBehaviour
     public Text scoresText;
     public Text hpText;
 
-    bool hitEnemy = false;
     int  score = 0;
     float speed = 8;
     float jumpForce = 12;
-    int playerHp = 99;
+    int playerHp = 3;
     bool isGround,isFall;
     bool jumpPressed;
     int jumpCount = 2;
