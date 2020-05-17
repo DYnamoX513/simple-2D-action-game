@@ -153,3 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5feb8fc15bdb6a14d81d71266163aafc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fragment1: {fileID: 8991587071893793611, guid: 9f863c4f153c4064da39ab7125dd48eb,
+    type: 3}
+  fragment2: {fileID: 5770117419750181089, guid: 6c0a20bf7b9c87045b16c81d20ea31ea,
+    type: 3}
