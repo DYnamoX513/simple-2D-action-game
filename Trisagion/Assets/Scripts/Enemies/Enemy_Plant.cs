@@ -12,7 +12,7 @@ public class Enemy_Plant : Enemy
     public float bulletVelocity;
     public Vector3 initialRelativePos;
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         base.Start();
         if (transform.localScale.x < 0)
@@ -56,4 +56,6 @@ public class Enemy_Plant : Enemy
     {
         animator.SetTrigger(AnimParam.Idle);
     }
+
+    public override void Hurt(){}
 }

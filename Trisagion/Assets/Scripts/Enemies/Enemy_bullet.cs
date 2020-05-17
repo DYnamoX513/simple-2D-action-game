@@ -18,7 +18,7 @@ public class Enemy_bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(2);
+        Destroy(gameObject);
     }
 
 }
