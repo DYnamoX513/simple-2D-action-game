@@ -286,7 +286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.57, y: 2.83, z: -10}
+  m_LocalPosition: {x: 5.51, y: 4.52, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 1567104073}
   m_Layer: 8
   m_Name: Tilemap
-  m_TagString: Untagged
+  m_TagString: Terrian
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1713,15 +1713,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Radish
       objectReference: {fileID: 0}
+    - target: {fileID: 4806872886420335169, guid: bffbf16be377f6749913b2de093486e4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4806872886420335177, guid: bffbf16be377f6749913b2de093486e4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.09
+      value: 1.04
       objectReference: {fileID: 0}
     - target: {fileID: 4806872886420335177, guid: bffbf16be377f6749913b2de093486e4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.26
+      value: 6.53
       objectReference: {fileID: 0}
     - target: {fileID: 4806872886420335177, guid: bffbf16be377f6749913b2de093486e4,
         type: 3}
@@ -1836,6 +1841,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlueBird
+      objectReference: {fileID: 0}
+    - target: {fileID: 5813489293613800731, guid: dcbe06a0d72dd144f9bf0056c5b3d914,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcbe06a0d72dd144f9bf0056c5b3d914, type: 3}

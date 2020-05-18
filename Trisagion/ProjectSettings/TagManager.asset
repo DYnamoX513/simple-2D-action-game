@@ -9,6 +9,7 @@ TagManager:
   - Traps
   - Collections2
   - Collections
+  - Terrian
   layers:
   - Default
   - TransparentFX

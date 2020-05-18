@@ -6,7 +6,12 @@ using UnityEngine;
 public class Enemy_Radish : Enemy
 {
     [Header("Basic")]
-    public Transform upPoint, downPoint;
+    public Transform upPoint;
+    public Transform downPoint;
+    public Collider2D headColl;
+    public Transform left;
+    public Transform right;
+    public GameObject leftLeaf, rightLeaf;
     private float upY, downY;
 
     [Header("Speed")]
@@ -16,13 +21,15 @@ public class Enemy_Radish : Enemy
     public float stagnationTime;
     public float runningSpeed;
 
-    private bool faceLeft, faceUp, inTheAir, stagnate;
+    private bool faceUp, inTheAir, stagnate, onTheGround;
+    private int faceLeft;
     private float midpoint, stagnationCount;
     private Rigidbody2D rb;
 
     // Start is called before the first frame update
     protected override void Start()
     {
+        base.Start();
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
 
@@ -33,10 +40,10 @@ public class Enemy_Radish : Enemy
 
         midpoint = (upY - downY) / 2 + downY;
         minFloatingSpeed = lowerThreshold * maxFloatingSpeed;
-        faceLeft = transform.localScale.x > 0;
+        faceLeft = transform.localScale.x > 0 ? -1 : 1;
+        runningSpeed = faceLeft * runningSpeed;
         inTheAir = faceUp = true;
         stagnate = false;
-
     }
 
     // Update is called once per frame
@@ -45,6 +52,9 @@ public class Enemy_Radish : Enemy
         if (inTheAir)
         {
             Floating();
+        }else if (onTheGround)
+        {
+            rb.velocity = new Vector2(runningSpeed, rb.velocity.y);
         }
     }
 
@@ -96,13 +106,53 @@ public class Enemy_Radish : Enemy
                 stagnate = true;
             }
         }
-
-        // being blocked by terrian
-
     }
 
     public override void Hurt()
     {
-        //base.Hurt();
+        base.Hurt();
+        gameObject.tag = "Untagged";
+        if (inTheAir)
+        {
+            GameObject leaf1 = Instantiate(leftLeaf);
+            GameObject leaf2 = Instantiate(rightLeaf);
+            leaf1.transform.position = left.position;
+            leaf2.transform.position = right.position;
+            leaf1.GetComponent<Rigidbody2D>().velocity = new Vector2(-maxFloatingSpeed/2, maxFloatingSpeed/2);
+            leaf2.GetComponent<Rigidbody2D>().velocity = new Vector2(maxFloatingSpeed/2, maxFloatingSpeed/2);
+            Destroy(left.gameObject);
+            Destroy(right.gameObject);
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
+    }
+
+    private void Falling()
+    {
+        gameObject.tag = "Enemy";
+        headColl.isTrigger = false;
+        if (inTheAir)
+        {
+            inTheAir = false;
+            rb.gravityScale = 1;
+            animator.SetBool(AnimParam.Idle, true);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Terrian" && !inTheAir)
+        {
+            animator.SetBool(AnimParam.Run, true);
+            animator.SetBool(AnimParam.Idle, false);
+            headColl.isTrigger = onTheGround = true;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
     }
 }
