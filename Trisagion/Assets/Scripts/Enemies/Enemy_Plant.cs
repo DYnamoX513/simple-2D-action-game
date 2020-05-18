@@ -10,7 +10,11 @@ public class Enemy_Plant : Enemy
     private int direction = 1;
     public GameObject bullet;
     public float bulletVelocity;
+    public GameObject firePoint;
+
+    [Header("deprecated value")]
     public Vector3 initialRelativePos;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -19,6 +23,7 @@ public class Enemy_Plant : Enemy
         {
             direction = -1;
         }
+        initialRelativePos = firePoint.transform.position;
     }
 
     // Update is called once per frame
@@ -43,7 +48,7 @@ public class Enemy_Plant : Enemy
     void Fire()
     {
         GameObject _bullet = Instantiate(bullet);
-        _bullet.transform.position = transform.position + initialRelativePos;
+        _bullet.transform.position = firePoint.transform.position;
         _bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-bulletVelocity * direction, 0);
     }
 
