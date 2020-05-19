@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5984885820404242767}
   - component: {fileID: 1876075222348891224}
   - component: {fileID: 5984885820404242766}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: AngryPig
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
+  m_EdgeRadius: 0.06
   m_Points:
   - {x: -0.58160686, y: 0.7012595}
   - {x: 0.023291588, y: 0.7529839}
@@ -178,8 +178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftpoint: {fileID: 5984885820736411200}
   rightpoint: {fileID: 5984885821361592419}
-  speed: 3
-  runningSpeed: 5
+  speed: 3.47
+  runningSpeed: 6.09
   interval: 3
 --- !u!1 &5984885820736411203
 GameObject:

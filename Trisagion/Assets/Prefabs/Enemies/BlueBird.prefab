@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5813489293613800725}
   - component: {fileID: 5813489293613800724}
   - component: {fileID: 5813489293613800721}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BlueBird
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -126,7 +126,7 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
+  m_EdgeRadius: 0.06
   m_Points:
   - {x: -0.23071003, y: 0.58412695}
   - {x: -0.050862312, y: 0.70838594}
