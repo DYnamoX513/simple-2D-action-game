@@ -6,9 +6,14 @@ TagManager:
   tags:
   - Collections1
   - Enemy
-  - Traps
   - Collections2
   - Collections
+  - Spikes
+  - Trampoline
+  - Traps
+  - Terrian
+  - SlimeParticle
+  - Bullet
   layers:
   - Default
   - TransparentFX
