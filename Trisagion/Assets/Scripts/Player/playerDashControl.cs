@@ -10,8 +10,7 @@ public class playerDashControl : MonoBehaviour
 
     public Transform groundCheck;
     public LayerMask ground;
-    public Text scoresText;
-    public Text hpText;
+    public Transform bottom;
     [Space]
     [Header("DashPara")]
     public float dashTime = 0.05f;//dash时长
@@ -27,15 +26,20 @@ public class playerDashControl : MonoBehaviour
     int  score = 0;
     float speed = 8.0f;
     float jumpForce = 12;
-    int playerHp = 99;
     bool isGround,isFall,isDashing;
     bool jumpPressed;
     int jumpCount = 2;
-    public float playerMp = 4;
-    float playerMpMax = 4;
     bool isHurt = false;
     bool emitJE = true;
     float lastUseMp, nextTime = 0;
+
+    public Text scoresText;
+    public Text timeText;
+    public Image hpSlider;
+    public Image mpSlider;
+    private float CountDownTime = 300f;
+    private float GameTime;
+    private float timer = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +47,14 @@ public class playerDashControl : MonoBehaviour
         Rb2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         scoresText.text = "Score:0" ;
-        hpText.text = "Hp:"+playerHp.ToString();
+        hpSlider.fillAmount = (float)GameManager.playerHp / GameManager.playerHpMax;
+        mpSlider.fillAmount = GameManager.playerMp / GameManager.playerMpMax;
+        GameTime = CountDownTime;
+        if (GameManager.personChoose == 2)
+        {
+            gameObject.SetActive(true);
+        }
+        else { gameObject.SetActive(false); }
     }
 
     //使动作更加平滑
@@ -68,18 +79,44 @@ public class playerDashControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.y < bottom.position.y)
+        {
+            DestoryThis();
+        }
+
         if (Input.GetButtonDown("Jump") && jumpCount > 0)
         {
+            SoundManager.instance.JumpAudio();
             jumpPressed = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && Rb2D.velocity.x != 0 && playerMp >= 2)
+        if (Input.GetKeyDown(KeyCode.Z) && Rb2D.velocity.x != 0 && GameManager.playerMp >= 2)
         {
-            playerMp -= 2;
+            GameManager.playerMp -= 2;
+            mpSlider.fillAmount = GameManager.playerMp / GameManager.playerMpMax;
+            SoundManager.instance.DashAudio();
             lastUseMp = Time.time;
             dashTimeLeft = dashTime;
             isDashing = true;
         }
+
+        if (GameManager.playerHp != 0)//做下开始游戏的判断
+        {
+            timer += Time.deltaTime;
+            if (timer >= 1f)
+            {
+                timer = 0;
+                GameTime--;
+                int M = (int)(GameTime / 60);
+                float S = GameTime % 60;
+                timeText.text = M + ":" + string.Format("{0:00}", S);
+                if ((M == 0) && (S <= 0))
+                {
+                    GameManager.PlayerDied(); //直接结束游戏
+                }
+            }
+        }
+
         MpChange();
     }
 
@@ -174,8 +211,8 @@ public class playerDashControl : MonoBehaviour
     //动画：从受伤状态恢复
     void RecFromDamage()
     {
-        anim.SetInteger("playerHp", playerHp);
-        if (playerHp > 0) 
+        anim.SetInteger("playerHp", GameManager.playerHp);
+        if (GameManager.playerHp > 0) 
         {
             anim.SetBool("hurting", false);
             isHurt = false;
@@ -184,6 +221,8 @@ public class playerDashControl : MonoBehaviour
     //动画：消失后销毁
     void DestoryThis()
     {
+        SoundManager.instance.DeathAudio();
+        GameManager.PlayerDied();
         Destroy(gameObject);
     }
 
@@ -193,27 +232,70 @@ public class playerDashControl : MonoBehaviour
         if (isHurt) { return; }
         switch (collision.tag)
         {
+            case "endPoint":
+                GameManager.score = score;
+                GameManager.time = GameTime;
+                GameManager.PlayerWin();
+                break;
             case "Enemy":
                 Enemy enemy = collision.gameObject.GetComponent<Enemy>();
                 enemy.Hurt();
                 Rb2D.velocity = new Vector2(Rb2D.velocity.x, jumpForce-2);
                 Debug.Log(collision.gameObject);
                 break;
+            case "Collections7":
+                collision.GetComponent<BoxCollider2D>().enabled = false;
+                collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
+                score += 10000;
+                scoresText.text = "Score:" + score.ToString();
+                break;
+            case "Collections6":
+                collision.GetComponent<BoxCollider2D>().enabled = false;
+                collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
+                score += 1200;
+                scoresText.text = "Score:" + score.ToString();
+                break;
+            case "Collections5":
+                collision.GetComponent<BoxCollider2D>().enabled = false;
+                collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
+                score += 1000;
+                scoresText.text = "Score:" + score.ToString();
+                break;
+            case "Collections4":
+                collision.GetComponent<BoxCollider2D>().enabled = false;
+                collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
+                score += 800;
+                scoresText.text = "Score:" + score.ToString();
+                break;
+            case "Collections3":
+                collision.GetComponent<BoxCollider2D>().enabled = false;
+                collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
+                score += 500;
+                scoresText.text = "Score:" + score.ToString();
+                break;
             case "Collections2":
                 collision.GetComponent<BoxCollider2D>().enabled = false;
                 collision.SendMessage("SwitchAnim");
-                score += 500;
+                SoundManager.instance.EatAudio();
+                score += 400;
                 scoresText.text = "Score:" + score.ToString();
                 break;
             case "Collections1":
                 collision.GetComponent<BoxCollider2D>().enabled = false;
                 collision.SendMessage("SwitchAnim");
-                score += 200;
+                SoundManager.instance.EatAudio();
+                score += 250;
                 scoresText.text = "Score:" + score.ToString();
                 break;
             case "Collections":
                 collision.GetComponent<BoxCollider2D>().enabled = false;
                 collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
                 score += 100;
                 scoresText.text = "Score:" + score.ToString();
                 break;
@@ -222,8 +304,9 @@ public class playerDashControl : MonoBehaviour
                 dashTimeLeft = 0;
                 isDashing = false;
                 Rb2D.velocity = new Vector2(0, Rb2D.velocity.y);
-                playerHp--;
-                hpText.text = "Hp:" + playerHp.ToString();
+                GameManager.playerHp--;
+                SoundManager.instance.HurtAudio();
+                hpSlider.fillAmount = (float)GameManager.playerHp / GameManager.playerHpMax;
                 if (transform.position.x < collision.gameObject.transform.position.x)
                 {
                     Rb2D.velocity = new Vector2(-5, Rb2D.velocity.y);
@@ -243,6 +326,7 @@ public class playerDashControl : MonoBehaviour
                 break;
             case "Trampoline":
                 Rb2D.velocity = new Vector2(Rb2D.velocity.x, 22);
+                SoundManager.instance.JumpAudio();
                 collision.SendMessage("SwitchAnim");
                 break;
             default:
@@ -257,8 +341,9 @@ public class playerDashControl : MonoBehaviour
             dashTimeLeft = 0;
             isDashing = false;
             Rb2D.velocity = new Vector2(0, Rb2D.velocity.y);
-            playerHp--;
-            hpText.text = "Hp:" + playerHp.ToString();
+            GameManager.playerHp--;
+            SoundManager.instance.HurtAudio();
+            hpSlider.fillAmount = (float)GameManager.playerHp / GameManager.playerHpMax;
             if (transform.position.x < collision.gameObject.transform.position.x)
             {
                 Rb2D.velocity = new Vector2(-5, Rb2D.velocity.y);
@@ -305,12 +390,13 @@ public class playerDashControl : MonoBehaviour
     {
         if (Time.time > nextTime)
         {
-            if (Time.time - lastUseMp > 2.0f && playerMp < playerMpMax)
+            if (Time.time - lastUseMp > 2.0f && GameManager.playerMp < GameManager.playerMpMax)
             {
-                playerMp += 0.1f;
-                if (playerMp > playerMpMax) playerMp = playerMpMax;
+                GameManager.playerMp += 0.1f;
+                if (GameManager.playerMp > GameManager.playerMpMax) GameManager.playerMp = GameManager.playerMpMax;
             }
             nextTime = Time.time + 0.1f;
         }
+        mpSlider.fillAmount = GameManager.playerMp / GameManager.playerMpMax;
     }
 }

@@ -191,13 +191,14 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 256
-  scoresText: {fileID: 0}
-  hpText: {fileID: 0}
   runEffect: {fileID: 2722717721870102571}
   slideEffect: {fileID: 1680595836588192238}
   jumpEffect: {fileID: 2311711350173833036, guid: aca791a0f7d9ba24f824cc2a24b2aed7,
     type: 3}
-  playerMp: 3
+  scoresText: {fileID: 0}
+  timeText: {fileID: 0}
+  hpSlider: {fileID: 0}
+  mpSlider: {fileID: 0}
 --- !u!95 &8871026449341136267
 Animator:
   serializedVersion: 3

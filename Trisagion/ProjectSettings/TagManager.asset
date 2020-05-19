@@ -14,6 +14,12 @@ TagManager:
   - Terrian
   - SlimeParticle
   - Bullet
+  - Collections3
+  - Collections4
+  - Collections5
+  - Collections6
+  - Collections7
+  - endPoint
   layers:
   - Default
   - TransparentFX

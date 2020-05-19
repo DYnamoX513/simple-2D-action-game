@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: spikeBrush
   m_EditorClassIdentifier: 
   m_Cells:
-  - m_Tile: {fileID: 0}
+  - m_Tile: {fileID: 11400000, guid: b903ac865aa47c84e8bc8b37c458728b, type: 2}
     m_Matrix:
       e00: 1
       e01: 0
