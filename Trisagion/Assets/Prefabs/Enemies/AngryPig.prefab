@@ -180,6 +180,7 @@ MonoBehaviour:
   rightpoint: {fileID: 5984885821361592419}
   speed: 3.47
   runningSpeed: 6.09
+  invincibleTime: 2
   interval: 3
 --- !u!1 &5984885820736411203
 GameObject:

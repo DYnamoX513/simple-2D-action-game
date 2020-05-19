@@ -17,11 +17,13 @@ public class Enemy : MonoBehaviour
 
     public virtual void Hurt()
     {
+        EnemySoundManager.instance.Hurt();
         animator.SetTrigger(AnimParam.Hurt);
     }
 
     public void Death()
     {
+        EnemySoundManager.instance.Death();
         Destroy(gameObject);
     }
 

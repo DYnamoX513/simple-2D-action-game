@@ -58,6 +58,7 @@ public class Enemy_Turtle : Enemy
             delayCount += Time.deltaTime;
             if (delayCount > spikeDelay)
             {
+                hostile = false;
                 animator.SetBool(AnimParam.Idle, false);
                 animator.SetBool(AnimParam.Hostile, false);
                 delayCount = 0.0f;
@@ -69,6 +70,7 @@ public class Enemy_Turtle : Enemy
     {
         tag = "Enemy";
         spike.enabled = true;
+        EnemySoundManager.instance.Spike();
     }
 
     void EndOfSpikeInAndOut()
@@ -93,7 +95,7 @@ public class Enemy_Turtle : Enemy
         health--;
         if (health == 0)
         {
-            Destroy(gameObject);
+            Death();
         }
 
         hostile = true;

@@ -13,7 +13,8 @@ public class Enemy_AngryPig : Enemy
 
     private float leftx, rightx;
 
-    public float speed, runningSpeed;
+    [Space]
+    public float speed, runningSpeed, invincibleTime;
     public int interval;
     private int initInterval;
 
@@ -132,10 +133,16 @@ public class Enemy_AngryPig : Enemy
 
     void Rage()
     {
+        EnemySoundManager.instance.Rage();
         rage = true;
-        invincible = false;
+        StartCoroutine(CountDown());
         animator.ResetTrigger(AnimParam.Hurt);
         animator.SetBool(AnimParam.Run, true);
     }
 
+    IEnumerator CountDown()
+    {
+        yield return new WaitForSeconds(invincibleTime);
+        invincible = false;
+    }
 }

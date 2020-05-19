@@ -14,6 +14,7 @@ public class Enemy_Trunk : Enemy
     private Rigidbody2D rb;
     private float stagnationCount;
 
+    [Space]
     public GameObject bullet;
     public float bulletVelocity;
     public Transform firePoint;
@@ -127,6 +128,7 @@ public class Enemy_Trunk : Enemy
         for(int i = 0; i < number; i++)
         {
             GameObject _bullet = Instantiate(bullet);
+            _bullet.transform.localScale = new Vector3(-direction, 1, 1);
             _bullet.transform.position = firePoint.position;
             _bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletVelocity * direction, 0);
             yield return new WaitForSeconds(interval);
