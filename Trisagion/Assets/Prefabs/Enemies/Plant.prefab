@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 10
-  interval: 2
+  interval: 1.4
   bullet: {fileID: 1311480252597446097, guid: 278f60545adc0854fb0b673ad006893e, type: 3}
   bulletVelocity: 4
   firePoint: {fileID: 1775669835}

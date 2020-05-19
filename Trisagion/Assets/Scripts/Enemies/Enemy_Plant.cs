@@ -5,8 +5,8 @@ using UnityEngine;
 public class Enemy_Plant : Enemy
 {
     public float attackRange;
-    public int interval;
-    private int intervalCount = 0;
+    public float interval;
+    private bool ready;
     private int direction = 1;
     public GameObject bullet;
     public float bulletVelocity;
@@ -19,6 +19,7 @@ public class Enemy_Plant : Enemy
     protected override void Start()
     {
         base.Start();
+        ready = true;
         if (transform.localScale.x > 0)
         {
             direction = -1;
@@ -33,12 +34,12 @@ public class Enemy_Plant : Enemy
 
     void Hostility()
     {
-        if (intervalCount <= 0) {
+        if (ready) {
             RaycastHit2D findPlayerH = Raycast(new Vector2(0, 0.4f), Vector2.right * direction, attackRange, playerMask);
             RaycastHit2D findPlayerL = Raycast(new Vector2(0, -0.4f), Vector2.right * direction, attackRange, playerMask);
             if (findPlayerH || findPlayerL)
             {
-                intervalCount = interval;
+                ready = false;
                 animator.SetTrigger(AnimParam.Attack); 
             }
         }
@@ -51,14 +52,16 @@ public class Enemy_Plant : Enemy
         _bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletVelocity * direction, 0);
     }
 
-    void Recharge()
-    {
-        intervalCount--;
-    }
-
     void Cooldown()
     {
         animator.SetTrigger(AnimParam.Idle);
+        StartCoroutine(Prepare());
+    }
+
+    IEnumerator Prepare()
+    {
+        yield return new WaitForSeconds(interval);
+        ready = true;
     }
 
     public override void Hurt(){}

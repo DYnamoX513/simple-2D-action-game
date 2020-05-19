@@ -178,8 +178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftpoint: {fileID: 5984885820736411200}
   rightpoint: {fileID: 5984885821361592419}
-  speed: 3
-  runningSpeed: 5
+  speed: 3.47
+  runningSpeed: 6.09
   interval: 3
 --- !u!1 &5984885820736411203
 GameObject:
