@@ -8,6 +8,8 @@ public class Enemy_Plant : Enemy
     public float interval;
     private bool ready;
     private int direction = 1;
+
+    [Space]
     public GameObject bullet;
     public float bulletVelocity;
     public Transform firePoint;
