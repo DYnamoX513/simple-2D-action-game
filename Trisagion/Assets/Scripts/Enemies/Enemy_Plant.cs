@@ -19,7 +19,7 @@ public class Enemy_Plant : Enemy
     protected override void Start()
     {
         base.Start();
-        if (transform.localScale.x < 0)
+        if (transform.localScale.x > 0)
         {
             direction = -1;
         }
@@ -34,8 +34,8 @@ public class Enemy_Plant : Enemy
     void Hostility()
     {
         if (intervalCount <= 0) {
-            RaycastHit2D findPlayerH = Raycast(new Vector2(0, 0.4f) * direction, Vector2.left, attackRange, playerMask);
-            RaycastHit2D findPlayerL = Raycast(new Vector2(0, -0.4f) * direction, Vector2.left, attackRange, playerMask);
+            RaycastHit2D findPlayerH = Raycast(new Vector2(0, 0.4f), Vector2.right * direction, attackRange, playerMask);
+            RaycastHit2D findPlayerL = Raycast(new Vector2(0, -0.4f), Vector2.right * direction, attackRange, playerMask);
             if (findPlayerH || findPlayerL)
             {
                 intervalCount = interval;
@@ -48,7 +48,7 @@ public class Enemy_Plant : Enemy
     {
         GameObject _bullet = Instantiate(bullet);
         _bullet.transform.position = firePoint.position;
-        _bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-bulletVelocity * direction, 0);
+        _bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletVelocity * direction, 0);
     }
 
     void Recharge()

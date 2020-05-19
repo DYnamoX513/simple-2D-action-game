@@ -11,6 +11,7 @@ TagManager:
   - Collections
   - Terrian
   - SlimeParticle
+  - Bullet
   layers:
   - Default
   - TransparentFX

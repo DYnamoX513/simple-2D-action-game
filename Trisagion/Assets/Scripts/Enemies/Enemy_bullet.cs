@@ -20,7 +20,7 @@ public class Enemy_bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy")
+        if (collision.tag == "Enemy" || collision.tag == "Bullet")
         {
             return;
         }
