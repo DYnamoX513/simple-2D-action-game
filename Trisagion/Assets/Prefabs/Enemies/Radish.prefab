@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 4806872886420335170}
   - component: {fileID: 4806872886420335171}
   - component: {fileID: 4806872886420335168}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Radish
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -251,10 +251,10 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
+  m_EdgeRadius: 0.13
   m_Points:
-  - {x: -0.56938744, y: 0.64075613}
-  - {x: 0.63916683, y: 0.6332817}
+  - {x: -0.47994357, y: 0.6506944}
+  - {x: 0.5596616, y: 0.64321995}
 --- !u!70 &4806872886420335170
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

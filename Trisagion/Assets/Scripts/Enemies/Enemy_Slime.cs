@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Enemy_Slime : Enemy
 {
     public float speed, groundDistance, feetOffset;
     public float[] scaleFromSmallToLarge;
+    public GameObject[] particleFromSmallToLarge;
 
     private int health;
     private float calculatedFeetOffset;
@@ -26,28 +28,50 @@ public class Enemy_Slime : Enemy
     // Update is called once per frame
     void Update()
     {
+
+    }
+
+    void FixedUpdate()
+    {
         Movement();
     }
 
     void Movement()
     {
-        RaycastHit2D leftCheck = Raycast(new Vector2(-calculatedFeetOffset, 0), Vector2.down, groundDistance, groundMask);
-        RaycastHit2D rightCheck = Raycast(new Vector2(calculatedFeetOffset, 0), Vector2.down, groundDistance, groundMask);
-        if (leftCheck && rightCheck)
+        RaycastHit2D leftGroundCheck = Raycast(new Vector2(-calculatedFeetOffset, 0), Vector2.down, groundDistance, groundMask);
+        RaycastHit2D rightGroundCheck = Raycast(new Vector2(calculatedFeetOffset, 0), Vector2.down, groundDistance, groundMask);
+
+        RaycastHit2D leftObjectCheck = Raycast(new Vector2(-calculatedFeetOffset, 0), Vector2.left, 0.1f, groundMask | enemyMask);
+        RaycastHit2D rightObjectCheck = Raycast(new Vector2(calculatedFeetOffset, 0), Vector2.right, 0.1f, groundMask | enemyMask);
+
+
+        if(direction == -1)
         {
-            rb.velocity = new Vector2(direction * speed, rb.velocity.y);
-        }else if (leftCheck)
+            if (leftGroundCheck && !leftObjectCheck)
+            {
+                rb.velocity = new Vector2(-speed, rb.velocity.y);
+            }
+            else if (rightGroundCheck && !rightObjectCheck)
+            {
+                direction = 1;
+                float scale = scaleFromSmallToLarge[health];
+                transform.localScale = new Vector3(-scale, scale, scale);
+                rb.velocity = new Vector2(speed, rb.velocity.y);
+            }
+        }
+        else
         {
-            direction = -1;
-            float scale = scaleFromSmallToLarge[health];
-            transform.localScale = new Vector3(scale, scale, scale);
-            rb.velocity = new Vector2(-speed, rb.velocity.y);
-        }else if (rightCheck)
-        {
-            direction = 1;
-            float scale = scaleFromSmallToLarge[health];
-            transform.localScale = new Vector3(-scale, scale, scale);
-            rb.velocity = new Vector2(speed, rb.velocity.y);
+            if (rightGroundCheck && !rightObjectCheck)
+            {
+                rb.velocity = new Vector2(speed, rb.velocity.y);
+            }
+            else if (leftGroundCheck && !leftObjectCheck)
+            {
+                direction = -1;
+                float scale = scaleFromSmallToLarge[health];
+                transform.localScale = new Vector3(scale, scale, scale);
+                rb.velocity = new Vector2(-speed, rb.velocity.y);
+            }
         }
     }
 
@@ -58,16 +82,21 @@ public class Enemy_Slime : Enemy
 
     void GenerateParticle()
     {
+        GameObject particle = Instantiate(particleFromSmallToLarge[health]);
+        particle.transform.position = transform.position;
+        particle.GetComponent<Rigidbody2D>().velocity = new Vector2(-direction * Random.Range(1, 3), Random.Range(1, 3));
+        StartCoroutine(ParticleAvailable(particle));
         health--;
         if (health < 0)
         {
             Destroy(gameObject);
             return;
         }
+        
         tag = "Untagged";
         float scale = scaleFromSmallToLarge[health];
         transform.localScale = new Vector3(-direction * scale, scale, scale);
-        calculatedFeetOffset = feetOffset * scale / scaleFromSmallToLarge[health + 1];
+        calculatedFeetOffset = feetOffset * scale / scaleFromSmallToLarge.Last();
     }
 
     void EndHurting()
@@ -79,5 +108,26 @@ public class Enemy_Slime : Enemy
     {
         tag = "Enemy";
         animator.SetBool(AnimParam.Idle, false);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "SlimeParticle")
+        {
+            Destroy(collision.gameObject);
+            if (health < scaleFromSmallToLarge.Length-1)
+            {
+                health++;
+                float scale = scaleFromSmallToLarge[health];
+                transform.localScale = new Vector3(-direction * scale, scale, scale);
+                calculatedFeetOffset = feetOffset * scale / scaleFromSmallToLarge.Last();
+            }
+        }
+    }
+
+    IEnumerator ParticleAvailable(GameObject particle)
+    {
+        yield return new WaitForSeconds(2);
+        particle.tag = "SlimeParticle";
     }
 }

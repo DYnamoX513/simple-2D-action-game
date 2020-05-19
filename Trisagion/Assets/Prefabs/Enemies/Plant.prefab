@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 7658714880600781538}
   - component: {fileID: 7658714880600781542}
   - component: {fileID: 7658714880600781543}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Plant
   m_TagString: Enemy
   m_Icon: {fileID: 0}

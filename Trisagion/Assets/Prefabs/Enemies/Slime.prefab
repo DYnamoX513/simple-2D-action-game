@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4714309800995053968}
   - component: {fileID: 4714309800995053969}
   - component: {fileID: 4714309800995053979}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Slime
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -138,10 +138,10 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
+  m_EdgeRadius: 0.09
   m_Points:
-  - {x: -0.70769525, y: 0.5007604}
-  - {x: 0.61905384, y: 0.51736516}
+  - {x: -0.49363855, y: 0.5007604}
+  - {x: 0.46046737, y: 0.5005574}
 --- !u!95 &4714309800995053969
 Animator:
   serializedVersion: 3
@@ -180,3 +180,7 @@ MonoBehaviour:
   - 0.4
   - 0.7
   - 0.9
+  particleFromSmallToLarge:
+  - {fileID: 3935562047312508242, guid: d55e106789efdf948843ca2b0436841c, type: 3}
+  - {fileID: 622738696543011014, guid: 23549dbfda7e2ec4799e488ec7e5371e, type: 3}
+  - {fileID: 3771092122748681964, guid: c92e56de0b9ce2f4d8e7532b0b8457a8, type: 3}

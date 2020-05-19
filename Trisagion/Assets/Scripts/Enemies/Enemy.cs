@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    protected LayerMask playerMask, groundMask;
+    protected LayerMask playerMask, groundMask, enemyMask;
     protected Animator animator;
 
     protected virtual void Start()
@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         playerMask = DLayerMask.playerMask;
         groundMask = DLayerMask.groundMask;
+        enemyMask = DLayerMask.enemyMask;
     }
 
     public virtual void Hurt()
