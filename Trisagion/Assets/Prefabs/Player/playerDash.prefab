@@ -207,14 +207,15 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 256
-  scoresText: {fileID: 0}
-  hpText: {fileID: 0}
   dashTime: 0.1
   dashSpeed: 30
   runEffect: {fileID: 169308477941589634}
   jumpEffect: {fileID: 2311711350173833036, guid: aca791a0f7d9ba24f824cc2a24b2aed7,
     type: 3}
-  playerMp: 4
+  scoresText: {fileID: 0}
+  timeText: {fileID: 0}
+  hpSlider: {fileID: 0}
+  mpSlider: {fileID: 0}
 --- !u!1001 &6668916185838362810
 PrefabInstance:
   m_ObjectHideFlags: 0

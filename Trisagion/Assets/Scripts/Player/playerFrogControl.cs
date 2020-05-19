@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +12,7 @@ public class playerFrogControl : MonoBehaviour
     public Transform groundCheck;
     public Transform rightCheck;
     public LayerMask ground;
-    public Text scoresText;
-    public Text hpText;
+    public Transform bottom;
 
     [Space]
     [Header("Particle")]
@@ -24,9 +24,6 @@ public class playerFrogControl : MonoBehaviour
     float speed = 8.0f;
     float slideSpeed = 2.0f;
     float jumpForce = 12;
-    int playerHp = 99;
-    public float playerMp = 3;
-    float playerMpMax = 3;
     bool isGround,isFall,isWall;
     bool jumpPressed;
     bool walljump;
@@ -35,13 +32,28 @@ public class playerFrogControl : MonoBehaviour
     bool emitJE = true;
     float lastUseMp, nextTime = 0;
 
+    public Text scoresText;
+    public Text timeText;
+    public Image hpSlider;
+    public Image mpSlider;
+    private float CountDownTime = 300f;
+    private float GameTime;
+    private float timer = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         Rb2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        scoresText.text = "Score:0" ;
-        hpText.text = "Hp:"+playerHp.ToString();
+        scoresText.text = "Score:0";
+        hpSlider.fillAmount = (float)GameManager.playerHp / GameManager.playerHpMax;
+        mpSlider.fillAmount = GameManager.playerMp / GameManager.playerMpMax;
+        GameTime = CountDownTime;
+        if (GameManager.personChoose == 1)
+        {
+            gameObject.SetActive(true);
+        }
+        else { gameObject.SetActive(false); }
     }
 
     //使动作更加平滑
@@ -50,7 +62,7 @@ public class playerFrogControl : MonoBehaviour
         isGround = Physics2D.OverlapCircle(groundCheck.position, 0.1f, ground);
         isWall = Physics2D.OverlapCircle(rightCheck.position, 0.01f, ground);
         MpChange();
-        if (playerMp <= 0) isWall = false;
+        if (GameManager.playerMp <= 0) isWall = false;
 
         if (!isHurt)
         {
@@ -66,7 +78,29 @@ public class playerFrogControl : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && jumpCount > 0 && !walljump)
         {
+            SoundManager.instance.JumpAudio();
             jumpPressed = true;
+        }
+
+        if (GameManager.playerHp != 0)//做下开始游戏的判断
+        {
+            timer += Time.deltaTime;
+            if (timer >= 1f)
+            {
+                timer = 0;
+                GameTime--;
+                int M = (int)(GameTime / 60);
+                float S = GameTime % 60;
+                timeText.text = M + ":" + string.Format("{0:00}", S);
+                if ((M == 0) && (S <= 0))
+                {
+                    GameManager.PlayerDied(); //直接结束游戏
+                }
+            }
+        }
+        if (transform.position.y < bottom.position.y)
+        {
+            DestoryThis();
         }
     }
 
@@ -158,6 +192,7 @@ public class playerFrogControl : MonoBehaviour
         if (isHurt)
         {
             anim.SetBool("hurting", true);
+            anim.SetBool("onWall", false);
             return;
         }
 
@@ -168,6 +203,11 @@ public class playerFrogControl : MonoBehaviour
         }else if(Mathf.Abs(Rb2D.velocity.x)<0.1f || Rb2D.velocity.y!= 0)
         {
             runEffect.Stop();
+        }
+
+        if (!isWall)
+        {
+            anim.SetBool("onWall", false);
         }
 
         if (isGround)
@@ -207,8 +247,8 @@ public class playerFrogControl : MonoBehaviour
     //动画：从受伤状态恢复
     void RecFromDamage()
     {
-        anim.SetInteger("playerHp", playerHp);
-        if (playerHp > 0) 
+        anim.SetInteger("playerHp", GameManager.playerHp);
+        if (GameManager.playerHp > 0) 
         {
             anim.SetBool("hurting", false);
             isHurt = false;
@@ -217,6 +257,8 @@ public class playerFrogControl : MonoBehaviour
     //动画：消失后销毁
     void DestoryThis()
     {
+        SoundManager.instance.DeathAudio();
+        GameManager.PlayerDied();
         Destroy(gameObject);
     }
 
@@ -226,34 +268,77 @@ public class playerFrogControl : MonoBehaviour
         if (isHurt) { return; }
         switch (collision.tag)
         {
+            case "endPoint":
+                GameManager.score = score;
+                GameManager.time = GameTime;
+                GameManager.PlayerWin();
+                break;
             case "Enemy":
                 Enemy enemy = collision.gameObject.GetComponent<Enemy>();
                 enemy.Hurt();
                 Rb2D.velocity = new Vector2(Rb2D.velocity.x, jumpForce-2);
-                Debug.Log(collision.gameObject);
+                break;
+            case "Collections7":
+                collision.GetComponent<BoxCollider2D>().enabled = false;
+                collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
+                score += 10000;
+                scoresText.text = "Score:" + score.ToString();
+                break;
+            case "Collections6":
+                collision.GetComponent<BoxCollider2D>().enabled = false;
+                collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
+                score += 1200;
+                scoresText.text = "Score:" + score.ToString();
+                break;
+            case "Collections5":
+                collision.GetComponent<BoxCollider2D>().enabled = false;
+                collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
+                score += 1000;
+                scoresText.text = "Score:" + score.ToString();
+                break;
+            case "Collections4":
+                collision.GetComponent<BoxCollider2D>().enabled = false;
+                collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
+                score += 800;
+                scoresText.text = "Score:" + score.ToString();
+                break;
+            case "Collections3":
+                collision.GetComponent<BoxCollider2D>().enabled = false;
+                collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
+                score += 500;
+                scoresText.text = "Score:" + score.ToString();
                 break;
             case "Collections2":
                 collision.GetComponent<BoxCollider2D>().enabled = false;
                 collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
                 score += 500;
                 scoresText.text = "Score:" + score.ToString();
                 break;
             case "Collections1":
                 collision.GetComponent<BoxCollider2D>().enabled = false;
                 collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
                 score += 200;
                 scoresText.text = "Score:" + score.ToString();
                 break;
             case "Collections":
                 collision.GetComponent<BoxCollider2D>().enabled = false;
                 collision.SendMessage("SwitchAnim");
+                SoundManager.instance.EatAudio();
                 score += 100;
                 scoresText.text = "Score:" + score.ToString();
                 break;
             case "Spikes":
                 isHurt = true;
-                playerHp--;
-                hpText.text = "Hp:" + playerHp.ToString();
+                GameManager.playerHp--;
+                SoundManager.instance.HurtAudio();
+                hpSlider.fillAmount = (float)GameManager.playerHp / GameManager.playerHpMax;
                 if (transform.position.x < collision.gameObject.transform.position.x)
                 {
                     Rb2D.velocity = new Vector2(-5, Rb2D.velocity.y);
@@ -273,6 +358,7 @@ public class playerFrogControl : MonoBehaviour
                 break;
             case "Trampoline":
                 Rb2D.velocity = new Vector2(Rb2D.velocity.x, 22);
+                SoundManager.instance.JumpAudio();
                 collision.SendMessage("SwitchAnim");
                 break;
             default:
@@ -284,8 +370,9 @@ public class playerFrogControl : MonoBehaviour
         if(collision.gameObject.tag == "Enemy")
         {
             isHurt = true;
-            playerHp--;
-            hpText.text = "Hp:" + playerHp.ToString();
+            GameManager.playerHp--;
+            SoundManager.instance.HurtAudio();
+            hpSlider.fillAmount = (float)GameManager.playerHp / GameManager.playerHpMax;
             if (transform.position.x < collision.gameObject.transform.position.x)
             {
                 Rb2D.velocity = new Vector2(-5, Rb2D.velocity.y);
@@ -311,16 +398,17 @@ public class playerFrogControl : MonoBehaviour
         {
             if (isWall && !isGround)
             {
-                playerMp -= 0.2f;
+                GameManager.playerMp -= 0.2f;
                 lastUseMp = Time.time;
-                if (playerMp < 0) playerMp = 0;
+                if (GameManager.playerMp < 0) GameManager.playerMp = 0;
             }
-            else if(!isWall && Time.time-lastUseMp > 2.0f && playerMp < playerMpMax)
+            else if(!isWall && Time.time-lastUseMp > 2.0f && GameManager.playerMp < GameManager.playerMpMax)
             {
-                playerMp += 0.1f;
-                if (playerMp > playerMpMax) playerMp = playerMpMax;
+                GameManager.playerMp += 0.1f;
+                if (GameManager.playerMp > GameManager.playerMpMax) GameManager.playerMp = GameManager.playerMpMax; 
             }
             nextTime = Time.time + 0.1f;
         }
+        mpSlider.fillAmount = GameManager.playerMp / GameManager.playerMpMax;
     }
 }

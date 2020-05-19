@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4620416961014430795}
   - component: {fileID: 5174213350174960181}
   - component: {fileID: -6582456385117922433}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Silme_particleM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
