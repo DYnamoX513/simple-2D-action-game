@@ -462,6 +462,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dc43e10dd448ed439721a9edfc64a0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSourcePerson: {fileID: 0}
+  jumpAudio: {fileID: 0}
+  hurtAudio: {fileID: 0}
+  eatAudio: {fileID: 0}
+  dashAudio: {fileID: 0}
+  deathAudio: {fileID: 0}
 --- !u!4 &971535178
 Transform:
   m_ObjectHideFlags: 0
@@ -1257,6 +1263,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3058828741874878747, guid: 81df2633438a3cb4ea57b1aaa1c24926,
+        type: 3}
+      propertyPath: m_TagString
+      value: Terrian
       objectReference: {fileID: 0}
     - target: {fileID: 3058828741874878748, guid: 81df2633438a3cb4ea57b1aaa1c24926,
         type: 3}

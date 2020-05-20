@@ -207,5 +207,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spike: {fileID: 8956591715293556436}
   spikeDelay: 2.94
-  range: 4.93
+  range: 3.84
   health: 3

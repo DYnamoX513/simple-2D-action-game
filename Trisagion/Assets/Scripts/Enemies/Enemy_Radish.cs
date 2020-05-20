@@ -141,7 +141,7 @@ public class Enemy_Radish : Enemy
         }
         else
         {
-            Destroy(gameObject);
+            Death();
         }
     }
 

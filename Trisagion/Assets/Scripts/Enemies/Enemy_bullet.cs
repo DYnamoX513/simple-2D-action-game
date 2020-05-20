@@ -20,10 +20,12 @@ public class Enemy_bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy" || collision.tag == "Bullet")
+        Debug.Log(collision.gameObject);
+        if (collision.tag != "Terrian" && collision.tag != "Player")
         {
             return;
         }
+        EnemySoundManager.instance.BulletCrash();
         GameObject f1 = Instantiate(fragment1);
         GameObject f2 = Instantiate(fragment2);
         f1.transform.position = gameObject.transform.position + new Vector3(0, 0.1f, 0);
