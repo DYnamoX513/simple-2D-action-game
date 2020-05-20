@@ -276,7 +276,31 @@ public class playerFrogControl : MonoBehaviour
             case "Enemy":
                 Enemy enemy = collision.gameObject.GetComponent<Enemy>();
                 enemy.Hurt();
-                Rb2D.velocity = new Vector2(Rb2D.velocity.x, jumpForce-2);
+                Rb2D.velocity = new Vector2(Rb2D.velocity.x, jumpForce - 2);
+                jumpCount = 1;
+                break;
+            case "Bullet":
+                isHurt = true;
+                Rb2D.velocity = new Vector2(0, Rb2D.velocity.y);
+                GameManager.playerHp--;
+                SoundManager.instance.HurtAudio();
+                hpSlider.fillAmount = (float)GameManager.playerHp / GameManager.playerHpMax;
+                if (transform.position.x < collision.gameObject.transform.position.x)
+                {
+                    Rb2D.velocity = new Vector2(-5, Rb2D.velocity.y);
+                }
+                else if (transform.position.x > collision.gameObject.transform.position.x)
+                {
+                    Rb2D.velocity = new Vector2(5, Rb2D.velocity.y);
+                }
+                if (transform.position.y < collision.gameObject.transform.position.y)
+                {
+                    Rb2D.velocity = new Vector2(Rb2D.velocity.x, -5);
+                }
+                else if (transform.position.y > collision.gameObject.transform.position.y)
+                {
+                    Rb2D.velocity = new Vector2(Rb2D.velocity.x, 5);
+                }
                 break;
             case "Collections7":
                 collision.GetComponent<BoxCollider2D>().enabled = false;

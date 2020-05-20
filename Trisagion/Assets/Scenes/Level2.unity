@@ -433,55 +433,6 @@ PolygonCollider2D:
     type: 3}
   m_PrefabInstance: {fileID: 1860616154}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &971535176
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 971535178}
-  - component: {fileID: 971535177}
-  m_Layer: 0
-  m_Name: SoundManager (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &971535177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971535176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dc43e10dd448ed439721a9edfc64a0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSourcePerson: {fileID: 0}
-  jumpAudio: {fileID: 0}
-  hurtAudio: {fileID: 0}
-  eatAudio: {fileID: 0}
-  dashAudio: {fileID: 0}
-  deathAudio: {fileID: 0}
---- !u!4 &971535178
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971535176}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.369618, y: -0.6532554, z: -5.36151}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1002990323
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,7 +742,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1448199977
 GameObject:
@@ -1237,7 +1188,7 @@ PrefabInstance:
     - target: {fileID: 3058828741428453041, guid: 81df2633438a3cb4ea57b1aaa1c24926,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3058828741428453041, guid: 81df2633438a3cb4ea57b1aaa1c24926,
         type: 3}

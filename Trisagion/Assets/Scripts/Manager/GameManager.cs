@@ -34,14 +34,14 @@ public class GameManager : MonoBehaviour
     public static void PlayerDied()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        playerHp = 3;
+        playerHp = 99;
         playerMp = 4;
         score = 0;
     }
 
     public static void PlayerWin()
     {
-        playerHp = 3;
+        playerHp = 99;
         playerMp = 4;
         levelNow += 1;
         SceneManager.LoadScene("Account");
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     public static void returnScene()
     {
-        playerHp = 3;
+        playerHp = 99;
         playerMp = 4;
         score = 0;
         time = 0;
