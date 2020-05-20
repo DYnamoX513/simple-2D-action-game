@@ -49,6 +49,7 @@ public class Enemy_Trunk : Enemy
             if (findPlayerH || findPlayerL)
             {
                 ready = false;
+                rb.velocity = Vector2.zero;
                 animator.ResetTrigger(AnimParam.Run);
                 animator.SetTrigger(AnimParam.Attack);
                 stagnationCount = stagnationTime;
@@ -64,8 +65,8 @@ public class Enemy_Trunk : Enemy
                 RaycastHit2D leftGroundCheck = Raycast(new Vector2(-feetOffset, 0), Vector2.down, groundDistance, groundMask);
                 RaycastHit2D rightGroundCheck = Raycast(new Vector2(feetOffset, 0), Vector2.down, groundDistance, groundMask);
 
-                RaycastHit2D leftObjectCheck = Raycast(new Vector2(-feetOffset, 0), Vector2.left, 0.1f, groundMask | enemyMask);
-                RaycastHit2D rightObjectCheck = Raycast(new Vector2(feetOffset, 0), Vector2.right, 0.1f, groundMask | enemyMask);
+                RaycastHit2D leftObjectCheck = Raycast(new Vector2(-feetOffset, -0.3f), Vector2.left, 0.1f, groundMask | enemyMask);
+                RaycastHit2D rightObjectCheck = Raycast(new Vector2(feetOffset, -0.3f), Vector2.right, 0.1f, groundMask | enemyMask);
 
 
                 if (direction == -1)

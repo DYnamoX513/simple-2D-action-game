@@ -49,6 +49,7 @@ public class Enemy_Plant : Enemy
 
     void Fire()
     {
+        EnemySoundManager.instance.OpenFire();
         GameObject _bullet = Instantiate(bullet);
         _bullet.transform.position = firePoint.position;
         _bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletVelocity * direction, 0);

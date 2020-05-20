@@ -109,7 +109,7 @@ public class Enemy_BlueBird : Enemy
         health--;
         if (health == 0)
         {
-            Destroy(gameObject);
+            Death();
         }
         gameObject.tag = "Enemy";
         stagnant = false;
