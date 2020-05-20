@@ -49,6 +49,7 @@ public class Enemy_Trunk : Enemy
             if (findPlayerH || findPlayerL)
             {
                 ready = false;
+                rb.velocity = Vector2.zero;
                 animator.ResetTrigger(AnimParam.Run);
                 animator.SetTrigger(AnimParam.Attack);
                 stagnationCount = stagnationTime;
